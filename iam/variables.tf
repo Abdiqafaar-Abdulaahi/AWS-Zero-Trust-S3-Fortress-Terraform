@@ -1,6 +1,6 @@
 variable "role_name" {
-    type = string
+  type = string
 }
 variable "project_tag" {
-    type = string
+  type = string
 }
