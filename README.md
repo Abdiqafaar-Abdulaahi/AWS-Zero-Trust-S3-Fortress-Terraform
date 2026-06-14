@@ -13,7 +13,7 @@ This project implements an **Attribute-Based Access Control (ABAC)** architectur
 ## Validation
 The following screenshots demonstrate successful access to authorized buckets and the enforcement of the "Deny" policy for unauthorized projects.
 
-![EC2 Access Validated](docs/ec2_success.png)
+![EC2 Access Validated](Docs/ec2_success.png)
 
 ## Deployment
 1. Ensure your Terraform provider is configured.

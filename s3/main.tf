@@ -92,7 +92,7 @@ resource "aws_s3_bucket_policy" "s3_policy" {
                 Action = "s3:*"
                 Resource = [aws_s3_bucket.bucket.arn, "${aws_s3_bucket.bucket.arn}/*"]
                 Condition = {
-                     ArnNotLike = { "aws:PrincipalArn" = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/test-user"]}
+                     ArnNotLike = { "aws:PrincipalArn" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"} # you can add a user in here too 
                      StringNotEquals = { "aws:PrincipalTag/Project" = var.authorized_project}
                      }
             }
