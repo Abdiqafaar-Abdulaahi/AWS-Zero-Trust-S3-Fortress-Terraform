@@ -18,20 +18,20 @@ resource "aws_iam_role" "role" {
         Action = ["sts:AssumeRole", "sts:TagSession"]
       },
       {
-        Sid    = "AllowEC2Service"
+
         Effect = "Allow"
         Principal = {
           Service = "ec2.amazonaws.com"
         }
         Action = ["sts:AssumeRole", "sts:TagSession"]
-
       }
-
-
-
+      
     ]
   })
 }
+
+
+
 
 resource "aws_iam_policy" "role_policy" {
   name = "${var.role_name}-policy"
@@ -40,9 +40,9 @@ resource "aws_iam_policy" "role_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid      = "ListingAllBuckets"
-        Effect   = "Allow"
-        Action   = "s3:ListAllMyBuckets"
+        Sid = "ListAllMyBuckets"
+        Effect = "Allow"
+        Action = "s3:ListAllMyBuckets"
         Resource = "*"
       },
       {
@@ -67,7 +67,7 @@ resource "aws_iam_policy" "role_policy" {
         Effect    = "Allow"
         Action    = ["kms:GenerateDatakey", "kms:Encrypt", "kms:Decrypt"]
         Resource  = "arn:aws:kms:*:${data.aws_caller_identity.current.account_id}:key/*"
-        Condition = { StringEquals = { "aws:ResourceTag/Project" = var.project_tag } }
+        Condition = { StringEquals = { "kms:ResourceTag/Project" = var.project_tag } }
       }
     ]
   })
@@ -76,4 +76,9 @@ resource "aws_iam_policy" "role_policy" {
 resource "aws_iam_instance_profile" "instance_profile" {
   name = "${var.role_name}-instance-profile"
   role = aws_iam_role.role.name
+}
+
+resource "aws_iam_role_policy_attachment" "attach_global_policy" {
+  role       = aws_iam_role.role.name
+  policy_arn = aws_iam_policy.role_policy.arn
 }
